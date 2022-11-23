@@ -1,0 +1,29 @@
+Problem: You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can 
+         either climb one or two steps.You can either start from the step with index 0, or the step with index 1.
+         Return the minimum cost to reach the top of the floor.
+         
+         
+Solution:
+
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        HashMap<Integer,Integer> map= new HashMap<>();
+      return Math.min(mincost(cost,0,map),mincost(cost,1,map));  
+    }
+    private int mincost(int[] cost, int index,HashMap<Integer,Integer> map)
+    {
+        if(index==cost.length-1)
+            return cost[index];
+        if(index>=cost.length)
+            return 0;
+        if(map.containsKey(index))
+            return map.get(index);
+        
+        int onejump=mincost(cost,index+1,map);
+        int twojump=mincost(cost,index+2,map);
+        map.put(index+1,onejump);
+        map.put(index+2,twojump);
+        
+        return Math.min(onejump,twojump)+ cost[index];
+    }
+}
