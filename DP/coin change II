@@ -1,0 +1,95 @@
+Problem 518. : Coin Change II
+You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+Return the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, 
+return 0. You may assume that you have an infinite number of each kind of coin. The answer is guaranteed to fit into a signed 32-bit integer.
+
+Example 1:
+
+Input: amount = 5, coins = [1,2,5]
+Output: 4
+Explanation: there are four ways to make up the amount:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+
+Solution:
+
+#####DP approach#######
+  
+ class Solution {
+    public int change(int amount, int[] coins) {
+      return totalWays(coins, 0 , amount, new HashMap<String, Integer>()); 
+    }
+
+private int totalWays(int[] coins,int currentindex, int amount, HashMap<String, Integer> memo){
+      if(amount == 0)
+         return 1;
+      if(currentindex == coins.length)
+         return 0;
+
+    String currentKey= Integer.toString(currentindex) + " - " + Integer.toString(amount);
+
+      if(memo.containsKey(currentKey))
+      return memo.get(currentKey);
+
+      int currentcoin = coins[currentindex];
+      int consider=0;
+
+      if(currentcoin <= amount)
+        consider= totalWays(coins, currentindex, amount-currentcoin, memo);
+
+      int notconsider=totalWays(coins, currentindex+1, amount , memo);
+
+      memo.put(currentKey, consider+notconsider);
+      return memo.get(currentKey);
+    }
+}
+
+BUT IT IS GIVING TLE SO, TRY WITH 2-D ARRAY
+
+
+
+
+
+######SOLUTION USING 2-D ARRAY:########
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int[][] dp = new int[coins.length][amount+1];
+        for(int i=0;i<coins.length;i++)
+            for(int j=0;j<amount+1;j++)
+              dp[i][j]=-1;
+      return totalWays(coins, 0 , amount, new HashMap<String, Integer>(),dp); 
+    }
+
+private int totalWays(int[] coins,int currentindex, int amount, HashMap<String, Integer> memo, int[][] dp){
+      if(amount == 0)
+         return 1;
+      if(currentindex == coins.length)
+         return 0;
+
+ //   String currentKey= Integer.toString(currentindex) + " - " + Integer.toString(amount);
+
+ //     if(memo.containsKey(currentKey))
+//    return memo.get(currentKey);
+
+      if(dp[currentindex][amount]!=-1)
+        return dp[currentindex][amount];
+
+      int currentcoin = coins[currentindex];
+      int consider=0;
+
+      if(currentcoin <= amount)
+        consider= totalWays(coins, currentindex, amount-currentcoin, memo, dp);
+
+      int notconsider=totalWays(coins, currentindex+1, amount , memo, dp);
+
+     // memo.put(currentKey, consider+notconsider);
+     // return memo.get(currentKey);
+
+     dp[currentindex][amount]=consider+notconsider;
+     return dp[currentindex][amount];
+    }
+}
+
