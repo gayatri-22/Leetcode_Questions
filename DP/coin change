@@ -1,0 +1,49 @@
+Problem 322. Coin Change
+You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the 
+coins, return -1. You may assume that you have an infinite number of each kind of coin.
+
+Example 1:
+Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1
+
+Example 2:
+Input: coins = [2], amount = 3
+Output: -1
+
+Solution:
+#### DP approach ####
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+       int ans= mincoin(coins,0,amount, new HashMap<String,Integer>()); 
+
+       if(ans == 10001)
+           return -1;
+        
+        return ans;
+    }
+    private int mincoin(int[] coins, int currentindex, int amount,HashMap<String,Integer> memo ){
+        if(amount == 0)
+        return 0;
+        if(currentindex == coins.length)
+        return 10001;
+
+    String currentKey= Integer.toString(currentindex) + " - " + Integer.toString(amount);
+
+      if(memo.containsKey(currentKey))
+      return memo.get(currentKey);
+
+      int currentcoin = coins[currentindex];
+      int consider= 10001;
+
+      if(currentcoin <= amount)
+        consider= 1+ mincoin(coins, currentindex, amount-currentcoin, memo);
+
+      int notconsider=mincoin(coins, currentindex+1, amount , memo);
+
+      memo.put(currentKey, Math.min(consider,notconsider));
+      return memo.get(currentKey);
+    }
+}
