@@ -1,0 +1,27 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> answer = new ArrayList<>();
+        generateComb(candidates,0,target,new ArrayList<>(),answer);
+        return answer;
+    }
+
+    private void generateComb(int[] candidates, int currentIndex,int target, ArrayList<Integer> current, List<List<Integer>> answer){
+
+        if(target==0){
+            answer.add(new ArrayList<>(current));
+            return;
+        }
+
+        if(currentIndex>=candidates.length)
+           return;
+
+        if(candidates[currentIndex]<=target){
+            current.add(candidates[currentIndex]);
+            generateComb(candidates,currentIndex,target-candidates[currentIndex],current,answer);
+            current.remove(current.size()-1);
+        }
+
+        generateComb(candidates,currentIndex+1,target,current,answer);
+        return;
+    }
+}
