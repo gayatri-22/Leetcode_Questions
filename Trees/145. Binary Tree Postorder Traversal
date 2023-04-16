@@ -14,7 +14,7 @@
  * }
  */
  
- 
+//RECURSIVE APPROACH 
 class Solution {
     public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> answer = new ArrayList<>();
@@ -30,5 +30,32 @@ class Solution {
         postorder(root.right,answer);
         answer.add(root.val);
         return;
+    }
+}
+
+//ITERATIVE APPROACH
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+     List<Integer> ans= new ArrayList<>();
+     Stack<TreeNode> stack = new Stack<>();
+
+    if(root==null)
+     return ans;
+
+    stack.push(root);
+
+    while(!stack.isEmpty()){
+     TreeNode currentNode= stack.pop();
+     ans.add(currentNode.val);
+
+     if(currentNode.left!=null)
+       stack.push(currentNode.left);
+
+      if(currentNode.right!=null)
+       stack.push(currentNode.right); 
+
+    }
+    Collections.reverse(ans);
+    return ans;
     }
 }
