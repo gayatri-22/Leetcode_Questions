@@ -14,7 +14,7 @@
  * }
  */
  
- 
+//DFS 
 class Solution {
     public boolean isUnivalTree(TreeNode root) {
         return isUnivalued(root,root.val);
@@ -31,5 +31,33 @@ class Solution {
         Boolean rightAns= isUnivalued(root.right,val);
 
         return leftAns && rightAns;
+    }
+}
+
+
+//BFS
+class Solution {
+    public boolean isUnivalTree(TreeNode root) {
+        Queue<TreeNode> queue= new LinkedList<>();
+
+        queue.add(root);
+
+        int requiredVal= root.val;
+
+        while(!queue.isEmpty()){
+                            
+            TreeNode currentNode = queue.remove();
+
+            if(currentNode.val != root.val)
+               return false;
+                                
+            if(currentNode.left != null)
+                queue.add(currentNode.left);
+
+            if(currentNode.right != null)
+            queue.add(currentNode.right);
+               
+        }
+        return true;
     }
 }
