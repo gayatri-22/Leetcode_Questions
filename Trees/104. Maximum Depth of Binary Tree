@@ -14,7 +14,7 @@
  * }
  */
  
- 
+//DFS 
 class Solution {
     public int maxDepth(TreeNode root) {
         return height(root);
@@ -29,5 +29,38 @@ class Solution {
 
         return Math.max(leftAns,rightAns);
 
+    }
+}
+
+
+
+//BFS
+class Solution {
+    public int maxDepth(TreeNode root) {
+        Queue<TreeNode> queue= new LinkedList<>();
+        int height = 0;
+
+        if(root==null)
+          return height;
+
+        queue.add(root);
+
+        while(!queue.isEmpty()){
+            int currentLevelSize = queue.size();
+
+            while(currentLevelSize > 0){
+                TreeNode currentNode = queue.remove();
+                
+                if(currentNode.left != null)
+                   queue.add(currentNode.left);
+
+                if(currentNode.right != null)
+                   queue.add(currentNode.right);
+
+                currentLevelSize -= 1;
+            }
+            height += 1;
+        }
+        return height;
     }
 }
