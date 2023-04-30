@@ -1,0 +1,30 @@
+class Solution {
+    public int findCircleNum(int[][] graph) {
+        int n=graph.length;
+        int ans=0;
+
+        boolean[] visited = new boolean[n];
+
+        for(int currCity=0;currCity<n;currCity++){
+            if(visited[currCity]==false){
+              dfs(graph,currCity,n,visited);
+              ans+=1;
+            }  
+        }
+        return ans;
+    }
+
+    private void dfs(int[][] graph, int currCity, int n, boolean[] visited){
+        if(visited[currCity])
+           return;
+
+        visited[currCity]= true;
+        int[] neighbours = graph[currCity];
+
+        for(int i=0;i<n;i++){
+            if(neighbours[i]==1)
+               dfs(graph,i,n,visited);
+        }
+        return;
+    }
+}
