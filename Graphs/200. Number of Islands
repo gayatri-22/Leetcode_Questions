@@ -1,0 +1,32 @@
+class Solution {
+    public int numIslands(char[][] grid) {
+        int ans=0;
+        int m=grid.length;
+        int n = grid[0].length;
+
+        for(int currRow=0; currRow<m;currRow++)
+          for(int currCol=0;currCol<n;currCol++){
+              if(grid[currRow][currCol]=='1'){
+                  sinkIsland(grid,currRow,currCol,m,n);
+                  ans+=1;
+              }
+          }
+          return ans;       
+    }
+
+    private void sinkIsland(char[][] grid, int currRow, int currCol, int m, int n){
+
+        if(currRow<0 || currRow>=m || currCol<0 || currCol>=n || grid[currRow][currCol]=='0')
+        return;
+
+        grid[currRow][currCol]='0';
+
+        sinkIsland(grid,currRow-1,currCol,m,n);
+        sinkIsland(grid,currRow+1,currCol,m,n);
+        sinkIsland(grid,currRow,currCol-1,m,n);
+        sinkIsland(grid,currRow,currCol+1,m,n);
+
+       return;
+    }
+
+}
