@@ -1,0 +1,20 @@
+class Solution {
+    public int findJudge(int n, int[][] trust) {
+      int[] inDegree= new int[n+1];
+      int[] outDegree= new int[n+1];
+
+      for(int[] currTrust : trust){
+          int a= currTrust[0];
+          int b = currTrust[1];
+
+          inDegree[b]+=1;
+          outDegree[a]+=1;
+      }
+
+      for(int currpeople=1 ; currpeople<=n ; currpeople++){
+          if(inDegree[currpeople]==n-1 && outDegree[currpeople]==0)
+            return currpeople;
+      }
+      return -1;
+    }
+}
