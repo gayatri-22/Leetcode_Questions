@@ -1,0 +1,36 @@
+class Solution {
+    public boolean exist(char[][] board, String word) {
+
+        int m= board.length;
+        int n=board[0].length;
+
+        for(int currRow=0; currRow < m; currRow++){
+            for(int currCol=0; currCol < n; currCol++){
+                if(board[currRow][currCol]==word.charAt(0) && findWord(board, currRow, currCol, 0, word, m, n))
+                return true;
+            }
+        }
+        return false;       
+    }
+
+    private boolean findWord(char[][] board, int currRow, int currCol, int currIndex, String word, int m , int n){
+
+        if(currIndex >= word.length())
+          return true;
+
+        if(currRow<0 || currRow>=m || currCol<0 || currCol>=n || board[currRow][currCol]!=word.charAt(currIndex))
+        return false;
+
+        Character temp= board[currRow][currCol];
+        board[currRow][currCol] = '.';
+
+        boolean found= findWord(board, currRow-1, currCol, currIndex+1, word, m, n) ||
+        findWord(board, currRow+1, currCol, currIndex+1, word, m, n) ||
+        findWord(board, currRow, currCol-1, currIndex+1, word, m, n) ||
+        findWord(board, currRow, currCol+1, currIndex+1, word, m, n);
+
+        board[currRow][currCol]=temp;
+        return found;
+
+    }
+}
