@@ -1,0 +1,56 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        ArrayList<ArrayList<Integer>> graph = constructGraph(numCourses,prerequisites);
+        int[] inDegree = new int[numCourses];
+
+        for(int currCourse=0; currCourse<numCourses; currCourse++){
+            for(int currNeigh: graph.get(currCourse))
+               inDegree[currNeigh]+=1; 
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[numCourses];
+        ArrayList<Integer> order = new ArrayList<>();
+
+        for(int i=0;i<numCourses;i++){
+
+            if(inDegree[i]==0)
+               queue.add(i);
+        }
+
+        while(!queue.isEmpty()){
+            int currCourse= queue.remove();
+
+            if(visited[currCourse])
+              continue;
+
+            visited[currCourse]=true;
+            order.add(currCourse);
+
+            for(int currNeigh : graph.get(currCourse)){
+              inDegree[currNeigh]-=1;
+            
+              if(inDegree[currNeigh] == 0)
+                queue.add(currNeigh);
+
+            }
+        }
+
+        return order.size()==numCourses;
+        
+    }
+
+    private ArrayList<ArrayList<Integer>> constructGraph(int n, int[][] edges){
+        ArrayList<ArrayList<Integer>> graph= new ArrayList<>();
+
+        for(int i=0;i<n;i++)
+          graph.add(new ArrayList<Integer>());
+
+        for(int[] currEdges: edges){
+            int a = currEdges[0];
+            int b = currEdges[1];
+            graph.get(b).add(a);
+        }
+        return graph;
+    }
+}
