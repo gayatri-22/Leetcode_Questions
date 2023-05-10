@@ -1,0 +1,134 @@
+73. Set Matrix Zeroes
+
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int n= matrix.length;
+        int m= matrix[0].length;
+        Set<Integer> rows= new HashSet<>();
+        Set<Integer> cols= new HashSet<>();
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(matrix[i][j]==0){
+                    rows.add(i);
+                    cols.add(j);
+                }
+            }
+        }
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(rows.contains(i) || cols.contains(j)){
+                    matrix[i][j]=0;
+                }
+            }
+        }
+
+        
+    }
+}
+
+---------------------------------------------------------------------------------------------------
+
+118. Pascal's Triangle
+
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+       List<List<Integer>> res= new ArrayList<List<Integer>>();
+       for(int i=0;i<numRows;i++){
+           List<Integer> val= new ArrayList<>();
+           double x=1.0;
+           for(int j=0;j<=i;j++){
+               val.add((int)x);
+               x = x * (i-j)/(j+1);         
+           }
+           res.add(val); 
+       }
+       return res;
+    }
+}
+
+
+----------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------
+
+53. Maximum Subarray.  (KADANE'S ALGORITHM)
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+       //kadane's algorithm
+       int max=Integer.MIN_VALUE;
+       int sum=0;
+       for(int i=0;i<nums.length;i++){
+           sum=sum+nums[i];
+           if(sum>max){
+           max=sum;
+       }
+       if(sum<0){
+           sum=0; //agar jo sum hai woh -ve aa raha hai toh usse zero kardo 
+       }
+       
+       }
+       return max;
+    }
+}
+
+
+----------------------------------------------------------------------------------------------
+
+75. Sort Colors
+
+class Solution {
+    public void sortColors(int[] nums) {
+        for(int i=0;i<nums.length;i++){
+            for(int j=0;j<nums.length;j++){
+                if(nums[i]<nums[j]){
+                    int temp=nums[i];
+                    nums[i]=nums[j];
+                    nums[j]=temp;
+                }
+            }
+            
+        }
+    }
+}
+
+OR
+
+class Solution {
+       public void sortColors(int[] nums) {
+        byte zeroFreq=0;
+        byte oneFreq =0;
+        byte twoFreq = 0;
+        for (int i:nums) {
+            if (i==0) {zeroFreq++;}
+            else if (i==1) {oneFreq++;}
+            else if (i==2) {twoFreq++;}
+        }
+        for (int i = 0; i < zeroFreq; i++) {
+            nums[i] = 0;
+
+        }
+        for (int i = zeroFreq; i < oneFreq + zeroFreq; i++) {
+            nums[i] = 1;
+        }
+        for (int i = oneFreq + zeroFreq; i < twoFreq + zeroFreq + oneFreq; i++) {
+            nums[i] = 2;
+        }
+    }
+}
+
+----------------------------------------------------------------------------------------------
+
+
+
+
+
